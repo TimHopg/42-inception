@@ -94,8 +94,6 @@ services:
     image: redis
 ```
 
-
-
 ## Workflow
 
 - Build a Dockerfile for each image you wish to add.

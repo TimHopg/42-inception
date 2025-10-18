@@ -78,8 +78,29 @@ Then you can start all the services from the configuration in a single command.
 
 One of the Docker Compose functions is to build images from Dockerfiles.
 
+Basic structure for a Docker Compose file
+
+```dockercompose
+version: 'X'
+
+services:
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+    volumes:
+     - .:/code
+  redis:
+    image: redis
+```
+
+
+
 ## Workflow
 
 - Build a Dockerfile for each image you wish to add.
 - Use Docker Compose to assemble the images with the `build` command
 
+## Installing Docker
+
+- Install the Docker engine

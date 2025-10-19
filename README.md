@@ -94,11 +94,99 @@ services:
     image: redis
 ```
 
-## Workflow
-
-- Build a Dockerfile for each image you wish to add.
-- Use Docker Compose to assemble the images with the `build` command
-
 ## Installing Docker
 
 - Install the Docker engine
+
+## Workflow (this is without TSL ecryption and env variables)
+
+- Build a Dockerfile for each image you wish to add.
+- Use Docker Compose to assemble the images with the `build` command.
+
+```plaintext
+../inception/
+├── docker-compose.yml
+└── requirements
+    └── nginx
+        └── Dockerfile
+```
+
+- docker-compose.yml file in our projects root directory on the virtual machine.
+- A requirements folder that contains folders for our containers for our Dockerfile and service specific config files.
+- NGINX service in our docker-compose file:
+
+```yml
+version: "3.8"
+
+services:
+  nginx:
+    build: requirements/nginx/.
+    container_name: nginx
+    ports:
+      - "80:80"
+```
+
+- NGINX Dockerfile:
+
+```dockerfile
+FROM debian:latest
+
+RUN apt update && apt upgrade && apt install -y nginx
+
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+- `-g` runs the process in the foreground. This way
+
+## Docker Commands
+
+`docker compose up --build` - `up` starts all services defined in the docker compose file. `--build` flag forces build/rebuild of the images for the services, using instructions in Dockerfiles. You can run without `--build` if no changes have been made(?).
+
+## NGINX
+
+High performance web server and reverse proxy.
+
+`-g` - set global configuration directives
+`"daemon-off"` - runs NGINX in the foreground
+
+<https://nginx.org/en/docs/switches.html>
+
+## MariaDB
+
+## WordPress
+
+- Two users: Admin (with appropriate password) and another.
+
+## PID 1
+
+A Docker container only stays running as long as their main process (PID 1) is running in the foreground. Running our services in the foreground means Docker can manage, monitor and restart the container when needed.
+
+## TLS
+
+v1.2 / v1.3
+
+## Docker Secrets
+
+## docker-network
+
+## Checklist
+
+[] Volumes available in `/home/<login>/data` of the host machine using Docker. Replace `<login>` with your own.
+[] Configure your domain name to point to your local IP address. `<login>.42.fr` (`thopgood.42.fr`).
+[] `latest` tag is prohibited.
+[] No Passwords in Dockerfiles.
+[] Use a `.env` file to store environment variables.
+[] User Docker secrets to store any confidential information
+[] NGINX container is the sole entry point into your infrastructure via port 443, using TLS v1.2 or v.1.3 protocol.
+
+## Potential Issues
+
+- Main problem is keeping the container alive. Unless there is a foreground process, it will exit.
+- Bash script to create the website for wordpress.
+- At the end of the script, one line launches the process in the foreground.
+- So NGINX must be launched without daemonising. There is a command for this.
+
+## Resources
+
+- <https://docs.docker.com/>
+- <https://nginx.org/en/docs/>

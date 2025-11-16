@@ -1,4 +1,13 @@
-# Inception
+# Inception - Docker WordPress Infrastructure
+
+## Quick Summary
+
+We're creating a WordPress hosting infrastructure using Docker. Here's what each service does:
+
+NGINX - The web server that receives HTTP/HTTPS requests from users and forwards PHP requests to WordPress. Run on port 443 for HTTPS.
+WordPress (PHP-FPM) - The application server that generates web pages (PHP-FPM is "PHP FastCGI Process Manager"). Runs on port 9000 as default.
+MariaDB - The database that stores all WordPress content (posts, users, settings). Runs on port 3306 as the default assigned by MySQL (MariaDB is a fork of MySQL).
+They communicate through a Docker network, and persist data in volumes.
 
 ## Introduction
 
@@ -116,7 +125,7 @@ services:
 - NGINX service in our docker-compose file:
 
 ```yml
-version: "3.8"
+version: "3.8" # deprecated, version now not needed
 
 services:
   nginx:
@@ -162,6 +171,12 @@ High performance web server and reverse proxy.
 A Docker container only stays running as long as their main process (PID 1) is running in the foreground. Running our services in the foreground means Docker can manage, monitor and restart the container when needed.
 
 ## TLS
+
+TLS is a cryptographic protocol to secure data. TLS is the lock and HTTPS is the door that uses that lock.
+When you visit a `https://` website, your browser uses HTTP wrapped in TLS to ensure the data is encrypted and secure.
+
+A TLS handshake is initiated with the server, they agree on encryption methods and exchange keys.
+Once a secure channel is established, HTTP traffic flows through it, this is HTTPS.
 
 v1.2 / v1.3
 

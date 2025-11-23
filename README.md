@@ -205,3 +205,10 @@ v1.2 / v1.3
 
 - <https://docs.docker.com/>
 - <https://nginx.org/en/docs/>
+
+## Notebook
+
+To configure the local domain to forward `thopgood.42.fr` to `localhost`. `sudo` grants super user permissions only to the command immediately after so this opens a shell and runs the `echo` command that follows `-c`.
+`sudo sh -c 'echo "127.0.0.1 thopgood.42.fr" >> /etc/hosts'`
+
+Behind the scenes, the computer will no longer ask DNS servers to resolve the IP of `thopgood.42.fr` and instead will immedaitely resolve to `127.0.0.1`.

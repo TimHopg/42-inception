@@ -1,0 +1,40 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "features": {
+    "networking": true
+  },
+  "preferredVersions": {
+    "php": "8.0",
+    "wp": "latest"
+  },
+  "steps": [
+    {
+      "step": "installTheme",
+      "themeData": {
+        "resource": "url",
+        "url": "https://github-proxy.com/proxy/?repo=zerosonesfun/new-kid&branch=main"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "blogname": "Billy Wilcosky",
+        "blogdescription": "WordPress Block Theme Developer"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/themes/new-kid-main/parts/header.html",
+      "data": "<!-- wp:group {\"className\":\"is-style-success\",\"layout\":{\"type\":\"constrained\"}} --><div class=\"wp-block-group is-style-success\"><div class=\"wp-block-group\"><!-- wp:group {\"layout\":{\"type\":\"flex\",\"flexWrap\":\"nowrap\"}} --><div class=\"wp-block-group\"><!-- wp:site-logo {\"width\":64,\"shouldSyncIcon\":true} /--><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} --><div class=\"wp-block-group\"><!-- wp:site-title {\"fontSize\":\"large\"} /--><!-- wp:site-tagline {\"fontSize\":\"small\"} /--></div><!-- /wp:group --></div><!-- /wp:group --><!-- wp:group {\"layout\":{\"type\":\"flex\",\"justifyContent\":\"right\"}} --><div class=\"wp-block-group\"><!-- wp:html --><a href=\"https://wilcosky.com\" target=\"_blank\" style=\"display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: #000; color: #fff; border: 4px solid #000; box-shadow: 4px 4px 0 #000; text-decoration: none; font-size: 24px; font-weight: bold;\">🌐</a><!-- /wp:html --></div><!-- /wp:group --></div></div><!-- /wp:group --><!-- wp:spacer {\"height\":\"2rem\"} --><div style=\"height:2rem\" aria-hidden=\"true\" class=\"wp-block-spacer\"></div><!-- /wp:spacer -->"
+    },
+    {
+      "step": "writeFile", 
+      "path": "/wordpress/wp-content/themes/new-kid-main/templates/front-page.html",
+      "data": "<!-- wp:html --><style>header, footer { display: none !important; }</style><!-- /wp:html --><!-- wp:group {\"className\":\"is-style-alert\",\"layout\":{\"type\":\"constrained\"}} --><div class=\"wp-block-group is-style-alert\"><!-- wp:heading {\"textAlign\":\"center\",\"level\":1,\"fontSize\":\"huge\"} --><h1 class=\"wp-block-heading has-text-align-center has-huge-font-size\">AN OPEN LETTER</h1><!-- /wp:heading --><!-- wp:heading {\"textAlign\":\"center\",\"level\":2,\"fontSize\":\"large\"} --><h2 class=\"wp-block-heading has-text-align-center has-large-font-size\">TO MATT MULLENWEG</h2><!-- /wp:heading --></div><!-- /wp:group --><!-- wp:group {\"className\":\"is-style-highlight\",\"layout\":{\"type\":\"constrained\"}} --><div class=\"wp-block-group is-style-highlight\"><!-- wp:paragraph {\"fontSize\":\"medium\"} --><p class=\"has-medium-font-size\"><strong>September 17, 2025</strong></p><!-- /wp:paragraph --></div><!-- /wp:group --><!-- wp:group {\"layout\":{\"type\":\"constrained\"}} --><div class=\"wp-block-group\"><!-- wp:paragraph {\"fontSize\":\"large\"} --><p class=\"has-large-font-size\"><strong>Hi Matt,</strong></p><!-- /wp:paragraph --><!-- wp:paragraph --><p>I will get straight to it. I have been building with WordPress for many years and I am passionate about creating fast, thoughtful block themes that help people share ideas and tell stories. I created the site you are on now last night using the block editor especially for this letter.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>Lately I have applied to several openings at Automattic and each time I receive a same day rejection email with no opportunity for a chat or interview. The most recent role I applied for was a position focused on quickly producing block theme websites for customers, which is exactly the kind of work I want to do.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>I respect that hiring at scale is difficult and that many strong candidates apply. I am writing because Automattic is where I want to be and I would welcome even a short conversation to show my work, hear feedback, and explore whether there might be a fit. If there is someone on your team who reviews these roles and portfolios, I would be grateful for a pointer.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>Thank you for creating and guiding an ecosystem that keeps WordPress alive and useful for so many people. I appreciate your time and any advice you can offer.</p><!-- /wp:paragraph --></div><!-- /wp:group --><!-- wp:group {\"className\":\"is-style-success\",\"layout\":{\"type\":\"constrained\"}} --><div class=\"wp-block-group is-style-success\"><!-- wp:paragraph {\"fontSize\":\"large\"} --><p class=\"has-large-font-size\"><strong>Warmly,</strong></p><!-- /wp:paragraph --><!-- wp:paragraph {\"fontSize\":\"large\"} --><p class=\"has-large-font-size\"><strong>Billy Wilcosky</strong></p><!-- /wp:paragraph --><!-- wp:paragraph --><p><a href=\"https://wilcosky.com\" target=\"_blank\">wilcosky.com</a></p><!-- /wp:paragraph --></div><!-- /wp:group --><!-- wp:separator {\"className\":\"is-style-wide\"} --><hr class=\"wp-block-separator has-alpha-channel-opacity is-style-wide\"/><!-- /wp:separator --><!-- wp:group {\"className\":\"is-style-highlight\",\"layout\":{\"type\":\"constrained\"}} --><div class=\"wp-block-group is-style-highlight\"><!-- wp:heading {\"textAlign\":\"center\",\"level\":2,\"fontSize\":\"large\"} --><h2 class=\"wp-block-heading has-text-align-center has-large-font-size\">ABOUT THIS DEMO</h2><!-- /wp:heading --><!-- wp:paragraph {\"align\":\"center\"} --><p class=\"has-text-align-center\">This website demonstrates the <strong>New Kid</strong> NeoBrutalism WordPress block theme, built specifically to showcase modern block theme development skills. Everything was created using WordPress native block editor.</p><!-- /wp:paragraph --><!-- wp:buttons {\"layout\":{\"type\":\"flex\",\"justifyContent\":\"center\"}} --><div class=\"wp-block-buttons\"><!-- wp:button {\"className\":\"is-style-alert\"} --><div class=\"wp-block-button is-style-alert\"><a class=\"wp-block-button__link wp-element-button\" href=\"https://github.com/zerosonesfun/new-kid\" target=\"_blank\">VIEW THEME ON GITHUB</a></div><!-- /wp:button --></div><!-- /wp:buttons --></div><!-- /wp:group -->"
+    }
+  ]
+}

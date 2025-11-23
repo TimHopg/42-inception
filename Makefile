@@ -1,61 +1,35 @@
-# Root Makefile for Inception project# Inception Makefile - Simple version
-
-# This file orchestrates building and running the entire Docker infrastructure
-
 COMPOSE_FILE = srcs/docker-compose.yml
 
-# Define the path to docker-compose file (must be in srcs/ folder per subject)
+# Build all Docker images
+build:
+	docker-compose -f $(COMPOSE_FILE) build
 
-COMPOSE_FILE = srcs/docker-compose.yml.PHONY: build up down logs ps clean
+# Start containers in detached mode
+up:
+	docker-compose -f $(COMPOSE_FILE) up -d
 
-
-
-# Define phony targets (targets that don't produce files, just run commands)build:
-
-.PHONY: build up down	docker-compose -f $(COMPOSE_FILE) build
-
-
-
-# Target: buildup:
-
-# Purpose: Build all Docker images defined in docker-compose.yml	docker-compose -f $(COMPOSE_FILE) up -d
-
-# What it does: Reads Dockerfiles from requirements/ and creates images
-
-build:down:
-
-	docker-compose -f $(COMPOSE_FILE) build	docker-compose -f $(COMPOSE_FILE) down
-
-
-
-# Target: uplogs:
-
-# Purpose: Start all containers in detached mode (-d = runs in background)	docker-compose -f $(COMPOSE_FILE) logs -f
-
-# What it does: Creates and starts nginx, wordpress, and mariadb containers
-
-up:ps:
-
-	docker-compose -f $(COMPOSE_FILE) up -d	docker-compose -f $(COMPOSE_FILE) ps
-
-
-
-# Target: downclean:
-
-# Purpose: Stop and remove all running containers	docker-compose -f $(COMPOSE_FILE) down
-
-# What it does: Gracefully shuts down all services	docker system prune -f
-
+# Stop and remove all containers
 down:
 	docker-compose -f $(COMPOSE_FILE) down
 
-# Target: logs
-# Purpose: View real-time logs from all containers
-# Useful for debugging: shows what's happening inside containers
+# View real-time logs
 logs:
 	docker-compose -f $(COMPOSE_FILE) logs -f
 
-# Target: ps
-# Purpose: Show status of all containers (running, stopped, etc)
+# Show status of all containers
 ps:
 	docker-compose -f $(COMPOSE_FILE) ps
+
+# Remove unused volumes (for clean rebuild)
+prune:
+	docker volume prune -f
+
+# Clean rebuild: stop, prune volumes, build, and start fresh
+clean: down prune build up
+	@echo "Clean rebuild complete"
+
+# Rebuild and restart (for when you've updated Dockerfiles)
+rebuild: down build up
+	@echo "Rebuild complete"
+
+.PHONY: build up down logs ps clean prune rebuild

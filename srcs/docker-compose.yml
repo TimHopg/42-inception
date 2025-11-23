@@ -1,55 +1,50 @@
-# Docker Compose file for Inception projectversion: '3.8'
+# Defines all services, their configurations, networking and volumes
+# Subject requirement: This MUST be in srcs/ folder and be called by the Makefile services:
 
-# This file defines all services, their configurations, networking, and volumes
+services:
 
-# Subject requirement: This MUST be in srcs/ folder and be called by the Makefileservices:
-
-services:    
-  # ports:
-
-  # SERVICE 1: NGINX - Web server that receives HTTP requests      - "80:80"
-
+  # NGINX - Web server that receives HTTPS requests
   nginx:
     build: requirements/nginx/.
     container_name: nginx
     ports:
-      - "443:443"  
+      - "443:443"
+    volumes:
+      - wordpress_files:/var/www/html
     restart: unless-stopped
+    networks:
+      - inception
+    depends_on:
+      - wordpress
 
-    # build: requirements/nginx/.       # Path to Dockerfile for NGINX
-    # container_name: nginx              # Name of the running container
-    # ports:
-    #   - "443:443"                      # Map port 443 (HTTPS) on host to port 443 in container
-    # restart: unless-stopped            # Auto-restart if it crashes
-    # networks:
-    #   - inception                      # Connect to the 'inception' network
-    # depends_on:
-    #   - wordpress                      # Don't start until wordpress is ready
-
-  # SERVICE 2: WORDPRESS - PHP application server with php-fpm
-#   wordpress:
-#     build: requirements/wordpress/.    # Path to Dockerfile for WordPress
-#     container_name: wordpress          # Name of the running container
-#     restart: unless-stopped            # Auto-restart if it crashes
-#     networks:
-#       - inception                      # Connect to the 'inception' network
-#     depends_on:
-#       - mariadb                        # Don't start until mariadb is ready
+  # WORDPRESS - PHP application server with php-fpm
+  wordpress:
+    build: requirements/wordpress/.
+    container_name: wordpress
+    volumes:
+      - wordpress_files:/var/www/html
+    restart: unless-stopped
+    networks:
+      - inception
+    depends_on:
+      - mariadb
 
 #   # SERVICE 3: MARIADB - Database server
-#   mariadb:
-#     build: requirements/mariadb/.      # Path to Dockerfile for MariaDB
-#     container_name: mariadb            # Name of the running container
-#     restart: unless-stopped            # Auto-restart if it crashes
-#     networks:
-#       - inception                      # Connect to the 'inception' network
+  mariadb:
+    build: requirements/mariadb/.
+    container_name: mariadb
+    volumes:
+      - database:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - inception
 
-# # VOLUMES: Persistent storage (survive container restarts)
-# volumes:
-#   wordpress_files:                     # Volume for WordPress files
-#   database:                            # Volume for database files
+# VOLUMES: Persistent storage (survive container restarts)
+volumes:
+  wordpress_files:                     # Volume for WordPress files
+  database:                            # Volume for database files
 
-# # NETWORKS: Allow containers to communicate
-# networks:
-#   inception:                           # Custom network name - connects all 3 services
-#     driver: bridge                     # Type: bridge (standard Docker network)
+# NETWORK: Allow containers to communicate
+networks:
+  inception:
+    driver: bridge

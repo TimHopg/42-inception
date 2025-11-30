@@ -11,7 +11,7 @@ services:
       - "443:443"
     volumes:
       - wordpress_files:/var/www/html
-    restart: unless-stopped
+    restart: always
     networks:
       - inception
     depends_on:
@@ -23,26 +23,58 @@ services:
     container_name: wordpress
     volumes:
       - wordpress_files:/var/www/html
-    restart: unless-stopped
+    environment:
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD_FILE: /run/secrets/db_password
+      DB_HOST: mariadb
+      WP_ADMIN_USER_FILE: /run/secrets/wp_admin_user
+      WP_ADMIN_PASSWORD_FILE: /run/secrets/wp_admin_password
+      WP_TITLE: ${WP_TITLE}
+      WP_ADMIN_EMAIL: ${WP_ADMIN_EMAIL}
+    secrets:
+      - db_password
+      - wp_admin_user
+      - wp_admin_password
+    restart: always
     networks:
       - inception
     depends_on:
       - mariadb
 
-#   # SERVICE 3: MARIADB - Database server
+  # MARIADB - Database server
   mariadb:
     build: requirements/mariadb/.
     container_name: mariadb
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+      - db_password
+      - db_root_password
     volumes:
       - database:/var/lib/mysql
-    restart: unless-stopped
+    restart: always
     networks:
       - inception
 
+# SECRETS
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+  wp_admin_user:
+    file: ../secrets/wp_admin_user.txt
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt
+
 # VOLUMES: Persistent storage (survive container restarts)
 volumes:
-  wordpress_files:                     # Volume for WordPress files
-  database:                            # Volume for database files
+  wordpress_files:
+  database:
 
 # NETWORK: Allow containers to communicate
 networks:

@@ -170,17 +170,40 @@ High performance web server and reverse proxy.
 
 A Docker container only stays running as long as their main process (PID 1) is running in the foreground. Running our services in the foreground means Docker can manage, monitor and restart the container when needed.
 
-## TLS
+## TLS & SSL
 
 TLS is a cryptographic protocol to secure data. TLS is the lock and HTTPS is the door that uses that lock.
+SSL (Secure Sockets Layer) was the original protocol for securing web connections, but has been largely replaced by TLS due to security vulnerabilities. Modern HTTPS connections use TLS.
 When you visit a `https://` website, your browser uses HTTP wrapped in TLS to ensure the data is encrypted and secure.
 
 A TLS handshake is initiated with the server, they agree on encryption methods and exchange keys.
 Once a secure channel is established, HTTP traffic flows through it, this is HTTPS.
 
-v1.2 / v1.3
+SSL certificates (also called TLS certificates) contain the public key and identity information used during the TLS handshake. Despite the name, these certificates work with both SSL and TLS protocols.
+
+v1.2 / v1.3 - v1.2 is the older but still secure version and v1.3 is the new version with performance improvements.
 
 ## Docker Secrets
+
+Docker secrets securely store sensitive information like passwords and API keys. In this project:
+
+- Secrets are stored in files in the `secrets/` directory
+- Files are read by containers at runtime via `/run/secrets/filename`
+- The `secrets/` folder is gitignored for security
+- Required secret files:
+  - `db_password.txt` - Database user password
+  - `db_root_password.txt` - Database root password
+  - `wp_admin_user.txt` - WordPress admin username
+  - `wp_admin_password.txt` - WordPress admin password
+
+A secure way to manage sensitive data like passwords and API keys.
+Environment variables can be seen in logs.
+Secrets are:
+
+- Encrypted at rest
+- Only accessible in containers that explicitly declare them
+- Mounted as files inside containers at runtime
+- Not visible in logs or environment variabls
 
 ## docker-network
 
@@ -190,9 +213,9 @@ v1.2 / v1.3
 [] Configure your domain name to point to your local IP address. `<login>.42.fr` (`thopgood.42.fr`).
 [] `latest` tag is prohibited.
 [] No Passwords in Dockerfiles.
-[] Use a `.env` file to store environment variables.
-[] User Docker secrets to store any confidential information
-[] NGINX container is the sole entry point into your infrastructure via port 443, using TLS v1.2 or v.1.3 protocol.
+[] Use a `.env` file to store environment variables (non-sensitive).
+[] Use Docker secrets to store confidential information (passwords, keys).
+[] NGINX container is the sole entry point into your infrastructure via port 443, using TLS v1.2 or v1.3 protocol.
 
 ## Potential Issues
 
@@ -212,3 +235,5 @@ To configure the local domain to forward `thopgood.42.fr` to `localhost`. `sudo`
 `sudo sh -c 'echo "127.0.0.1 thopgood.42.fr" >> /etc/hosts'`
 
 Behind the scenes, the computer will no longer ask DNS servers to resolve the IP of `thopgood.42.fr` and instead will immedaitely resolve to `127.0.0.1`.
+
+`docker exec wordpress killall -9 php-fpm8.2`

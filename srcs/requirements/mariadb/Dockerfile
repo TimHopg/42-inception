@@ -16,7 +16,4 @@ EXPOSE 3306
 COPY script.sh .
 RUN chmod +x script.sh
 
-# Run as mysql user (not root)
-USER mysql
-
 CMD ["./script.sh"]

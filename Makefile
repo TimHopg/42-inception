@@ -52,11 +52,14 @@ crashng:
 	sleep 1
 	make ps
 
+# Create secrets folder/files (maybe not necessary)
 secrets:
 	chmod +x secrets_setup.sh
 	./secrets_setup.sh
 
+# Launch db terminal
 database:
 	docker exec -it mariadb mysql -u root -p
+# 
 
 .PHONY: build up down logs ps clean prune rebuild

@@ -5,7 +5,7 @@ RUN apt update && apt upgrade && apt install -y \
     apt clean && rm -rf /var/lib/apt/lists/*
 
 COPY 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
-COPY init.sql /etc/mysql/init.sql
+# COPY init.sql /etc/mysql/init.sql
 
 RUN mkdir -p /run/mysqld && \
     chown -R mysql:mysql /var/lib/mysql /var/run/mysqld

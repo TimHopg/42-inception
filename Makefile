@@ -65,6 +65,10 @@ database:
 # select user_login from wp_users;
 
 nuke:
-	docker stop $(docker ps -qa); docker rm $(docker ps -qa); docker rmi -f $(docker images -qa); docker volume rm $(docker volume ls -q); docker network rm $(docker network ls -q) 2>/dev/null
+    @if [ "$$(docker ps -q)" ]; then docker stop $$(docker ps -q); fi
+    @if [ "$$(docker ps -aq)" ]; then docker rm $$(docker ps -aq); fi
+    @if [ "$$(docker images -q)" ]; then docker rmi -f $$(docker images -q); fi
+    @if [ "$$(docker volume ls -q)" ]; then docker volume rm $$(docker volume ls -q); fi
+    @if [ "$$(docker network ls -q | grep -v 'bridge\|host\|none')" ]; then docker network rm $$(docker network ls -q | grep -v 'bridge\|host\|none'); fi
 
 .PHONY: build up down logs ps clean prune rebuild

@@ -2,6 +2,7 @@ COMPOSE_FILE = srcs/docker-compose.yml
 
 # Build all Docker images
 build:
+	mkdir -p /home/thopgood/data/database /home/thopgood/data/wordpress
 	docker-compose -f $(COMPOSE_FILE) build
 
 # Start containers

@@ -26,7 +26,7 @@ prune:
 
 # Clean rebuild
 clean: down
-	docker volume rm srcs_wordpress_files srcs_database 2>/dev/null || true
+	docker volume rm wordpress_files database 2>/dev/null || true
 	$(MAKE) build up
 	@echo "Clean rebuild complete"
 

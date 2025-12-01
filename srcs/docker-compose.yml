@@ -73,8 +73,18 @@ secrets:
 
 # VOLUMES: Persistent storage (survive container restarts)
 volumes:
-  wordpress_files:
   database:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/thopgood/data/database
+  wordpress_files:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/thopgood/data/wordpress
 
 # NETWORK: Allow containers to communicate
 networks:

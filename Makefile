@@ -60,6 +60,8 @@ secrets:
 # Launch db terminal
 database:
 	docker exec -it mariadb mysql -u root -p
-# 
+# use wordpress
+# show tables;
+# select user_login from wp_users;
 
 .PHONY: build up down logs ps clean prune rebuild

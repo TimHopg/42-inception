@@ -29,6 +29,7 @@ RUN mkdir -p /run/php
 
 COPY themes/astra /var/www/html/wp-content/themes/astra
 
+# default port for PHP-FPM (fast CGI process manager)
 EXPOSE 9000
 
 COPY script.sh .

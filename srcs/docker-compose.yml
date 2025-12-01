@@ -38,6 +38,7 @@ services:
       - db_password
       - wp_admin_user
       - wp_admin_password
+      - wp_user2_password
     restart: always
     networks:
       - inception
@@ -72,6 +73,8 @@ secrets:
     file: ../secrets/wp_admin_user.txt
   wp_admin_password:
     file: ../secrets/wp_admin_password.txt
+  wp_user2_password:
+    file: ../secrets/wp_user2_password.txt
 
 # VOLUMES: Persistent storage (survive container restarts)
 volumes:
